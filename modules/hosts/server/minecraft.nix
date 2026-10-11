@@ -30,6 +30,9 @@
       whitelist = {
         jidiaz = "4f8e1020-e681-46bd-ac34-100fe7dda18b";
         sloureiro = "82d66e08-20cc-49b5-8072-d10d3720b1ec";
+        Hopaness15 = "5e7609ce-32e7-45b4-8892-ac2cea6824ad";
+        Chinardooo = "0f894a2b-23e2-453b-b98c-bc0f4dfc69a7";
+        _mvnb_ = "2c29be95-b0d5-4443-a520-a48072826928";
       };
     };
 
