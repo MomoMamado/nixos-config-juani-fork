@@ -24,3 +24,27 @@ Should have the following categories:
   - drivers for GPU's
 
 ## Some pictures
+
+### Desktop and waybar
+
+![desktop-waybar](docs/assets/bg-waybar.png)
+
+### Terminal emulator - fastfetch
+
+![terminal](docs/assets/terminal-fastfetch.png)
+
+### Rofi menu
+
+![rofi](docs/assets/rofi.png)
+
+### Btop and Kew
+
+![btop-kew](docs/assets/btop-kew.png)
+
+### Nautilus
+
+![nautilus](docs/assets/nautilus-waybar.png)
+
+### Neovim with Lazyvim setup
+
+![lazyvim](docs/assets/lazyvim-tmux.png)
