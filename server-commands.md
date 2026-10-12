@@ -21,6 +21,9 @@
 | `mc save-all` | save the world now |
 | `mc kick <name>` / `mc ban <name>` | kick or ban a player |
 | `mc gamerule <rule> <value>` | change a gamerule, e.g. keep inventory |
+| `mc whitelist add <name>` / `mc whitelist remove <name>` | let someone in or out, until the next restart |
+| `mc whitelist list` | who's whitelisted right now |
+| `mc whitelist reload` | re-read `whitelist.json` from disk |
 | **Machine** | |
 | `free -h` | RAM and zram swap use |
 | `sudo du -sh /var/lib/minecraft/server-world` | world size on disk |
@@ -28,5 +31,6 @@
 | **Backup** | |
 | `sudo systemctl stop minecraft-server && sudo cp -r /var/lib/minecraft/server-world ~/server-world-$(date +%F) && sudo systemctl start minecraft-server` | copy the world to your home folder |
 
-- Add players to the `whitelist` in `modules/hosts/server/minecraft.nix` and rebuild.
+- `mc whitelist add` only lasts until the server restarts: the whitelist is declarative. To make it stick, add the player to the `whitelist` in `modules/hosts/server/minecraft.nix` and rebuild.
+- That attrset needs the player's UUID: `curl https://api.mojang.com/users/profiles/minecraft/<name>` and add the dashes (8-4-4-4-12).
 - To turn the server off for good, set `enable = false;` in that same file and rebuild.

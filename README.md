@@ -22,3 +22,5 @@ Should have the following categories:
   - steam and necessary tools to run games correctly
   - minecraft
   - drivers for GPU's
+
+## Some pictures
