@@ -18,5 +18,7 @@
 
       devenv
     ];
+
+    home.sessionVariables.DOTNET_CLI_TELEMETRY_OPTOUT = "1";
   };
 }
