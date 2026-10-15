@@ -26,7 +26,6 @@
         "poetry"
         "vscode"
         "nestjs"
-        "direnv"
       ];
     };
 

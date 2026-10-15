@@ -20,5 +20,7 @@
     ];
 
     home.sessionVariables.DOTNET_CLI_TELEMETRY_OPTOUT = "1";
+
+    programs.zsh.initContent = ''eval "$(devenv hook zsh)"'';
   };
 }
