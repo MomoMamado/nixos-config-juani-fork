@@ -6,7 +6,8 @@
     v = "nvim";
 
     enc = "tmux new-session -A -s nixos-config -c ~/nixos-config nvim .";
-    devinit = "devenv init --include-envrc";
+    dei = "devenv init";
+    dea = "devenv allow";
 
     "ls-status" = "~/nixos-config/scripts/network/localsend-toggle.sh status";
     "ls-on" = "~/nixos-config/scripts/network/localsend-toggle.sh on";
