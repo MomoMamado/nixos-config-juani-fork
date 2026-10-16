@@ -33,7 +33,7 @@
 
       users.users.juani.openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBnLiPRkKCRUXsHNO+fwdWBbxKFMW91HoQXVjEnFLYyr juani@nixos-laptop"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbd7OnECmOSRwdIb7sIlHsnOd2ugXmvd1onAuCE0Ktx juan@cachyos-pc"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOvEEfC16+8suJJG4sLcCGpBQqeTWPRqHSn3399Pwc/Q juani@nixos-desktop"
       ];
 
       system.stateVersion = "26.05";
