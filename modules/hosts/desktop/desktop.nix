@@ -19,6 +19,13 @@
 
         networking.hostName = "nixos-desktop";
 
+        hardware.ckb-next.enable = true;
+
+        programs.solaar = {
+          enable = true;
+          userService.enable = true;
+        };
+
         system.stateVersion = "26.05";
       };
 
