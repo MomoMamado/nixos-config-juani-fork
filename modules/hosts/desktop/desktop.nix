@@ -8,7 +8,8 @@
       modules = with config.flake.modules.nixos; [
         common
         base
-        # some other modules
+        gaming
+        dev
         desktop
       ];
     };
@@ -35,7 +36,7 @@
         quickshell = {
           enable = true;
           monitor = "DP-3";
-          sliders.edge = "left";
+          sliders.edge = "right";
         };
 
         hyprland.monitors = {

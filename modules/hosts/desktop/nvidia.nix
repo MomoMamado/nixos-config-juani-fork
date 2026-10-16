@@ -1,6 +1,5 @@
 {
   flake.modules.nixos.desktop = {config, ...}: {
-    # needed on Wayland too: this is what turns the NVIDIA driver on
     services.xserver.videoDrivers = ["nvidia"];
 
     hardware.graphics = {
