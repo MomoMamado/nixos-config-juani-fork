@@ -63,7 +63,7 @@ sudo nextcloud-occ status
 
 ### Importing existing files
 
-Files can be uploaded through the web UI or the synced folder. For large amounts (e.g. a OneDrive export) it's faster to copy them directly into the data dir and make Nextcloud index them:
+Files can be uploaded through the web UI or the synced folder. For large amounts (for example, a OneDrive export) it's faster to copy them directly into the data dir and make Nextcloud index them:
 
 ```bash
 sudo cp -r <folder> /data/nextcloud/data/juani/files/
@@ -73,6 +73,5 @@ sudo nextcloud-occ files:scan juani
 
 ### Notes
 
-- Access from other domains/IPs (e.g. Tailscale later) needs them added to `settings.trusted_domains`, otherwise Nextcloud shows an "untrusted domain" error.
 - Major version upgrades (e.g. `nextcloud35` → `nextcloud36`) must be done one version at a time.
 - Backups need both `/data/nextcloud` and the database: `sudo -u nextcloud pg_dump nextcloud > nextcloud.sql`.
