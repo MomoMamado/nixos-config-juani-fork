@@ -264,7 +264,7 @@ in {
         };
 
         "hyprland/language" = {
-          on-click = "hyprctl switchxkblayout at-translated-set-2-keyboard next";
+          on-click = "hyprctl switchxkblayout all next";
           format-es = "  ESP";
           format-en = "  ENG";
         };

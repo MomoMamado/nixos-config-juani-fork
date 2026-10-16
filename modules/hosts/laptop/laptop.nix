@@ -25,7 +25,10 @@
 
         environment.systemPackages = [pkgs.brightnessctl];
 
-        services.udev.packages = [pkgs.brightnessctl];
+        services = {
+          udev.packages = [pkgs.brightnessctl];
+          upower.enable = true;
+        };
 
         # Internal mic (Realtek ALC257): run this once on a fresh install.
         #
