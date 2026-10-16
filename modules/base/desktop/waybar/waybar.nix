@@ -227,7 +227,7 @@ in {
           on-click = "~/nixos-config/scripts/volume.sh input mute";
           on-scroll-up = "~/nixos-config/scripts/volume.sh input raise";
           on-scroll-down = "~/nixos-config/scripts/volume.sh input lower";
-          tooltip-format = "<b>Input Device</b>: {desc} at {volume}%"; # currently does not work
+          tooltip-format = "<b>Input Device</b>: {source_desc} at {source_volume}%";
         };
 
         # ----- HARDWARE GROUP -----

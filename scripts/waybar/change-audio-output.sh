@@ -1,25 +1,48 @@
 #!/usr/bin/env bash
 
-# Extract the Sinks section first to avoid Streams/Sources
-SINKS_SECTION=$(wpctl status | sed -n '/Sinks:/,/Sources:/p')
+# Toggle the onboard card between optical (Edifier speakers) and the analog
+# jack (headphones). Both live on the same card and can't run at once, so this
+# switches card profiles rather than default sinks.
 
-# Function to get ID: finds the line with the name, then grabs the first number found
-get_id() {
-    echo "$SINKS_SECTION" | grep "$1" | grep -oE '[0-9]+' | head -n 1
-}
+CARD="alsa_card.pci-0000_08_00.6"
+SPEAKERS="output:iec958-stereo+input:analog-stereo"
+HEADPHONES="output:analog-stereo+input:analog-stereo"
 
-# 1. Get the current active ID (the one with the *)
-CURRENT_ID=$(echo "$SINKS_SECTION" | grep '*' | grep -oE '[0-9]+' | head -n 1)
+export LC_ALL=C
 
-# 2. Get the IDs for your specific devices
-HP_ID=$(get_id "Auriculares")
-SPK_ID=$(get_id "Parlantes Edifier")
+current=$(pactl list cards | awk -v card="$CARD" '
+    $1 == "Name:" { in_card = ($2 == card) }
+    in_card && /Active Profile:/ { print $3; exit }')
 
-# Toggle logic
-if [ "$CURRENT_ID" == "$HP_ID" ]; then
-    wpctl set-default "$SPK_ID"
-    notify-send "Audio Output" "Switched to Edifier Speakers" -i audio-speakers
-else
-    wpctl set-default "$HP_ID"
-    notify-send "Audio Output" "Switched to Headphones" -i audio-headphones
+if [ -z "$current" ]; then
+    notify-send "Audio Output" "Sound card $CARD not found" -i dialog-error
+    exit 1
 fi
+
+if [ "$current" == "$SPEAKERS" ]; then
+    target=$HEADPHONES label="Headphones" icon=audio-headphones sink_suffix=analog-stereo
+else
+    target=$SPEAKERS label="Edifier Speakers" icon=audio-speakers sink_suffix=iec958-stereo
+fi
+
+if ! pactl set-card-profile "$CARD" "$target"; then
+    notify-send "Audio Output" "Failed to switch to $label" -i dialog-error
+    exit 1
+fi
+
+# The profile change recreates the sink; wait for it, then make it the default
+# so playing streams follow it
+sink="alsa_output.${CARD#alsa_card.}.$sink_suffix"
+for _ in {1..30}; do
+    pactl list sinks short | grep -q "$sink" && break
+    sleep 0.1
+done
+
+if ! pactl list sinks short | grep -q "$sink"; then
+    notify-send "Audio Output" "Switched profile, but $sink did not appear" -i dialog-error
+    exit 1
+fi
+
+pactl set-default-sink "$sink"
+
+notify-send "Audio Output" "Switched to $label" -i "$icon"
