@@ -1,40 +1,4 @@
-# Minecraft server config
-
-## Setup
-
-The server needs a DuckDNS token to have a Dynamic DNS, to set the token up the following steps should be followed:
-
-1. Go to duckdns.org, create an account and get a token.
-2. Create and edit the file where the secret will be stored with `sudoedit /etc/duckdns-token`.
-3. Enter the token obtained in step 1.
-4. Set the permissions of the file so it can only be read by root with `sudo chmod 600 /etc/duckdns-token`.
-5. Create and edit the file that will store the subdomain name with `sudoedit /etc/duckdns-domains`.
-6. Enter the name that will be in the domain (just the name, the entire URL will look like `<my-subdomain>.duckdns.org`)
-7. Set the permissions of the file so it can only be read by root with `sudo chmod 600 /etc/duckdns-domains`
-8. Run `rebuild`.
-9. Verify with `journalctl -u duckdns`. It should say `successful` or `Your IP was updated`. Also verify with `nslookup <created-domain>`.
-
-Commands:
-
-```bash
-# === token ===
-sudoedit /etc/duckdns-token
-# paste the duckdns token
-sudo chmod 600 /etc/duckdns-token
-
-# === subdomain ===
-sudoedit /etc/duckdns-domains
-# write the subdomain name
-sudo chmod 600 /etc/duckdns-domains
-
-rebuild # sudo nixos-rebuild switch -L --flake ~/nixos-config
-
-# === verification ===
-journalctl -u duckdns
-nslookup <created-url>
-```
-
-## Useful commands
+# Minecraft server commands
 
 | Command | What it does |
 | --- | --- |
