@@ -20,6 +20,12 @@
       };
       compression = "auto,zstd";
 
+      # the job only sees a read-only filesystem besides these
+      readWritePaths = [
+        "/var/backup" # database dump
+        "/data/nextcloud/config" # occ maintenance:mode writes config.php
+      ];
+
       startAt = "*-*-* 03:00:00";
       persistentTimer = true; # run on next boot if the server was off at 3am
 
@@ -32,7 +38,6 @@
       # Nextcloud is paused so files and database match; postHook also runs if the backup fails
       preHook = ''
         ${occ} maintenance:mode --on
-        mkdir -p /var/backup
         ${pkgs.util-linux}/bin/runuser -u postgres -- \
           ${config.services.postgresql.package}/bin/pg_dumpall --clean --if-exists > /var/backup/postgres.sql
         chmod 600 /var/backup/postgres.sql
@@ -42,7 +47,7 @@
       '';
     };
 
-    # never write the backup to the root disk if the external one is missing
-    systemd.services.borgbackup-job-data.unitConfig.RequiresMountsFor = "/backup";
+    # read-write paths must exist before the job starts
+    systemd.tmpfiles.rules = ["d /var/backup 0700 root root -"];
   };
 }
