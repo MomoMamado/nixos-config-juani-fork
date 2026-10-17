@@ -31,6 +31,13 @@
             disk = "/data";
           };
         }
+        {
+          resources = {
+            label = "Backup disk";
+            expanded = true;
+            disk = "/backup";
+          };
+        }
       ];
 
       services = [
