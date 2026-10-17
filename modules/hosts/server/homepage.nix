@@ -16,11 +16,19 @@
             uptime = true;
           };
         }
+        # one widget per disk: a widget with several disks shows them without names
         {
           resources = {
-            label = "Storage";
+            label = "System disk";
             expanded = true;
-            disk = ["/" "/data"];
+            disk = "/";
+          };
+        }
+        {
+          resources = {
+            label = "Data disk";
+            expanded = true;
+            disk = "/data";
           };
         }
       ];
