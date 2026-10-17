@@ -43,7 +43,7 @@ Nextcloud is used as a self-hosted replacement for OneDrive/Google Drive (file s
 4. Run `rebuild`. The password file must exist before this, otherwise the first setup fails. It's only read on the first install; after that the password is changed from the web UI.
 5. Verify with `systemctl status nextcloud-setup phpfpm-nextcloud nginx` and `sudo nextcloud-occ status`. It should say `installed: true`.
 6. Open `http://192.168.1.22` and log in with the user `juani` and the password from step 1.
-7. On each client install the Nextcloud desktop client (`pkgs.nextcloud-client`) or the mobile app, use `http://192.168.1.22` as the server address and pick a local folder to sync (e.g. `~/Nextcloud`).
+7. On computers, access the files from the browser at `http://192.168.1.22`. On phones, install the Nextcloud app and use `http://192.168.1.22` as the server address.
 
 Commands:
 
@@ -63,7 +63,7 @@ sudo nextcloud-occ status
 
 ### Importing existing files
 
-Files can be uploaded through the web UI or the synced folder. For large amounts (for example, a OneDrive export) it's faster to copy them directly into the data dir and make Nextcloud index them:
+Files can be uploaded through the web UI. For large amounts (for example, a OneDrive export) it's faster to copy them directly into the data dir and make Nextcloud index them:
 
 ```bash
 sudo cp -r <folder> /data/nextcloud/data/juani/files/
