@@ -58,6 +58,16 @@
               };
             }
             {
+              "Scrutiny" = {
+                icon = "scrutiny.png";
+                href = "http://192.168.1.22:8080";
+                widget = {
+                  type = "scrutiny";
+                  url = "http://localhost:8080";
+                };
+              };
+            }
+            {
               "Minecraft" = {
                 icon = "minecraft.png";
                 widget = {
