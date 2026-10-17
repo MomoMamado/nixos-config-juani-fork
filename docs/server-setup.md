@@ -74,4 +74,4 @@ sudo nextcloud-occ files:scan juani
 ### Notes
 
 - Major version upgrades (e.g. `nextcloud35` → `nextcloud36`) must be done one version at a time.
-- Backups need both `/data/nextcloud` and the database: `sudo -u nextcloud pg_dump nextcloud > nextcloud.sql`.
+- Backups (files and database) run every night, see [backup-setup.md](backup-setup.md).

@@ -6,7 +6,7 @@
   }: let
     occ = "${config.services.nextcloud.occ}/bin/nextcloud-occ";
   in {
-    # nightly encrypted backup of /data to the external disk (see docs/server-setup.md)
+    # nightly encrypted backup of /data to the external disk (see docs/backup-setup.md)
     services.borgbackup.jobs.data = {
       paths = [
         "/data/nextcloud"
