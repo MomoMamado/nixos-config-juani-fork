@@ -11,7 +11,7 @@
       paths = [
         "/data/nextcloud"
         "/data/immich"
-        "/var/backup" # database dump, see preHook
+        "/var/backup" # database dump, see ExecStartPre
       ];
       repo = "/backup/borg";
       encryption = {
@@ -19,12 +19,6 @@
         passCommand = "cat /etc/borg-passphrase";
       };
       compression = "auto,zstd";
-
-      # the job only sees a read-only filesystem besides these
-      readWritePaths = [
-        "/var/backup" # database dump
-        "/data/nextcloud/config" # occ maintenance:mode writes config.php
-      ];
 
       startAt = "*-*-* 03:00:00";
       persistentTimer = true; # run on next boot if the server was off at 3am
@@ -34,20 +28,23 @@
         weekly = 4;
         monthly = 6;
       };
-
-      # Nextcloud is paused so files and database match; postHook also runs if the backup fails
-      preHook = ''
-        ${occ} maintenance:mode --on
-        ${pkgs.util-linux}/bin/runuser -u postgres -- \
-          ${config.services.postgresql.package}/bin/pg_dumpall --clean --if-exists > /var/backup/postgres.sql
-        chmod 600 /var/backup/postgres.sql
-      '';
-      postHook = ''
-        ${occ} maintenance:mode --off
-      '';
     };
 
-    # read-write paths must exist before the job starts
-    systemd.tmpfiles.rules = ["d /var/backup 0700 root root -"];
+    # Borg runs sandboxed (read-only filesystem), but occ needs write access to
+    # Nextcloud's dirs, so these run outside it ("+"). Nextcloud is paused so
+    # files and database match; ExecStopPost also runs if the backup fails.
+    systemd.services.borgbackup-job-data.serviceConfig = {
+      ExecStartPre = [
+        "+${occ} maintenance:mode --on"
+        "+${pkgs.writeShellScript "dump-databases" ''
+          set -euo pipefail
+          mkdir -p /var/backup
+          ${pkgs.util-linux}/bin/runuser -u postgres -- \
+            ${config.services.postgresql.package}/bin/pg_dumpall --clean --if-exists > /var/backup/postgres.sql
+          chmod 600 /var/backup/postgres.sql
+        ''}"
+      ];
+      ExecStopPost = ["+${occ} maintenance:mode --off"];
+    };
   };
 }
