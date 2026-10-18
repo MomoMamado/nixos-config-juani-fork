@@ -12,7 +12,7 @@
         package = pkgs.papermcServers.papermc-26_3;
         eula = true;
         openFirewall = true;
-        jvmOpts = "-Xms3G -Xmx3G";
+        jvmOpts = "-Xms7G -Xmx7G";
 
         declarative = true;
         serverProperties = {
@@ -24,8 +24,8 @@
           force-gamemode = true;
           difficulty = "hard";
           max-players = 20;
-          view-distance = 12;
-          simulation-distance = 8;
+          view-distance = 16;
+          simulation-distance = 16;
           spawn-protection = 0;
           player-idle-timeout = 0;
           pause-when-empty-seconds = 120;
