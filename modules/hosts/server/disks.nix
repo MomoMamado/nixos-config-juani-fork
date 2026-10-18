@@ -9,7 +9,7 @@
     fileSystems."/backup" = {
       device = "/dev/disk/by-label/backup";
       fsType = "ext4";
-      options = ["nofail" "x-systemd.device-timeout=5s"];
+      options = ["nofail" "x-systemd.device-timeout=30s"];
     };
   };
 }
