@@ -32,7 +32,7 @@ in {
       import QtQuick
       import Quickshell
 
-      // Generated from modules/quickshell/quickshell.nix -- edit that, not this.
+      // Generated from modules/base/quickshell/quickshell.nix -- edit that, not this.
       Singleton {
           readonly property string monitor: ${builtins.toJSON cfg.monitor};
 
@@ -48,8 +48,9 @@ in {
     '';
 
     # the hand-written QML is symlinked back to the working tree instead of the
-    # store, so edits hot-reload without a rebuild
-    source = "${config.home.homeDirectory}/nixos-config/modules/quickshell";
+    # store, so edits hot-reload without a rebuild; the folder is worked out from
+    # where this file sits in the flake, so moving it needs no edit here
+    source = "${config.home.homeDirectory}/nixos-config${lib.removePrefix (toString self) (toString ./.)}";
     liveLink = path: config.lib.file.mkOutOfStoreSymlink "${source}/${path}";
   in {
     options.quickshell = {
