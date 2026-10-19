@@ -1,5 +1,9 @@
 {
-  flake.modules.nixos.serverConfiguration = {pkgs, ...}: {
+  flake.modules.nixos.serverConfiguration = {
+    config,
+    pkgs,
+    ...
+  }: {
     services.nextcloud = {
       enable = true;
       package = pkgs.nextcloud35;
@@ -18,7 +22,19 @@
       settings.trusted_domains = ["nixos-server"];
     };
 
-    networking.firewall.allowedTCPPorts = [80];
+    # nginx serves nextcloud; listen is set so the port follows ports.nix
+    services.nginx.virtualHosts.${config.services.nextcloud.hostName}.listen = [
+      {
+        addr = "0.0.0.0";
+        port = config.ports.nextcloud;
+      }
+      {
+        addr = "[::]";
+        port = config.ports.nextcloud;
+      }
+    ];
+
+    networking.firewall.allowedTCPPorts = [config.ports.nextcloud];
 
     systemd.tmpfiles.rules = ["d /data/nextcloud 0750 nextcloud nextcloud -"];
 

@@ -1,8 +1,9 @@
 {
-  flake.modules.nixos.serverConfiguration = {
+  flake.modules.nixos.serverConfiguration = {config, ...}: {
     services.immich = {
       enable = true;
       host = "0.0.0.0";
+      port = config.ports.immich;
       openFirewall = true;
       mediaLocation = "/data/immich";
     };

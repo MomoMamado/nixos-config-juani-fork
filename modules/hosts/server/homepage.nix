@@ -1,9 +1,16 @@
 {
-  flake.modules.nixos.serverConfiguration = {lib, ...}: {
+  flake.modules.nixos.serverConfiguration = {
+    config,
+    lib,
+    ...
+  }: let
+    inherit (config) ports;
+  in {
     services.homepage-dashboard = {
       enable = true;
       openFirewall = true;
-      allowedHosts = "192.168.1.22:8082";
+      listenPort = ports.homepage;
+      allowedHosts = "192.168.1.22:${toString ports.homepage}";
 
       widgets = [
         {
@@ -46,31 +53,31 @@
             {
               "Immich" = {
                 icon = "immich.png";
-                href = "http://192.168.1.22:2283";
-                siteMonitor = "http://localhost:2283";
+                href = "http://192.168.1.22:${toString ports.immich}";
+                siteMonitor = "http://localhost:${toString ports.immich}";
               };
             }
             {
               "Nextcloud" = {
                 icon = "nextcloud.png";
-                href = "http://192.168.1.22";
-                siteMonitor = "http://localhost/status.php";
+                href = "http://192.168.1.22:${toString ports.nextcloud}";
+                siteMonitor = "http://localhost:${toString ports.nextcloud}/status.php";
               };
             }
             {
               "Trilium" = {
                 icon = "trilium.png";
-                href = "http://192.168.1.22:8081";
-                siteMonitor = "http://localhost:8081";
+                href = "http://192.168.1.22:${toString ports.trilium}";
+                siteMonitor = "http://localhost:${toString ports.trilium}";
               };
             }
             {
               "Scrutiny" = {
                 icon = "scrutiny.png";
-                href = "http://192.168.1.22:8080";
+                href = "http://192.168.1.22:${toString ports.scrutiny}";
                 widget = {
                   type = "scrutiny";
-                  url = "http://localhost:8080";
+                  url = "http://localhost:${toString ports.scrutiny}";
                 };
               };
             }
