@@ -58,6 +58,13 @@
               };
             }
             {
+              "Trilium" = {
+                icon = "trilium.png";
+                href = "http://192.168.1.22:8081";
+                siteMonitor = "http://localhost:8081";
+              };
+            }
+            {
               "Scrutiny" = {
                 icon = "scrutiny.png";
                 href = "http://192.168.1.22:8080";

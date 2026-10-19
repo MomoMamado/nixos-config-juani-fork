@@ -11,6 +11,7 @@
       paths = [
         "/data/nextcloud"
         "/data/immich"
+        "/data/trilium/backup" # trilium's own daily/weekly/monthly db snapshots
         "/var/backup" # database dump, see ExecStartPre
       ];
       repo = "/backup/borg";
