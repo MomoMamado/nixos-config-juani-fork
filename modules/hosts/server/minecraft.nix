@@ -44,6 +44,7 @@
           OlaBuenas = "b6a233c6-f2ba-4080-a5e1-56c63ac1427e";
           JoacoTato04 = "55ec585f-fd7d-460a-befa-649c050ff095";
           Tute2979 = "e7a45527-3142-4ca8-9366-e35fff6d0f0b";
+          FedesUy = "0c6313b9-909e-407b-99ff-4b3694e8478d";
         };
       };
     };
