@@ -17,7 +17,7 @@ in {
           maxGenerations = 10;
 
           style = {
-            wallpapers = [../../../assets/bgs/glass-beach-2.jpg];
+            wallpapers = [../../../../assets/bgs/glass-beach-2.jpg];
             wallpaperStyle = "stretched";
             backdrop = themeNoHash.ink0;
 
