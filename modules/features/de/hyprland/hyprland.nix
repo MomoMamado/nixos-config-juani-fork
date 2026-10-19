@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   # installs Hyprland and registers the session (SDDM, UWSM, portal, polkit)
   flake.modules.nixos.base.programs.hyprland = {
     enable = true;
@@ -33,7 +33,7 @@
         };
         wallpaper = lib.mkOption {
           type = lib.types.path;
-          default = ../../../../../assets/bgs/glass-beach-1.png;
+          default = self.assets + "/bgs/glass-beach-1.png";
           description = "Wallpaper for this output, used by hyprpaper.";
         };
       };

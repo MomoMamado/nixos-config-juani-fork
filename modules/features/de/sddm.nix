@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.modules.nixos.base = {pkgs, ...}: {
     services.displayManager.sddm = {
       enable = true;
@@ -11,7 +11,7 @@
         flavor = "mocha";
         accent = "teal";
         loginBackground = true;
-        background = ../../../../assets/bgs/glass-beach-2.jpg;
+        background = self.assets + "/bgs/glass-beach-2.jpg";
       })
     ];
   };

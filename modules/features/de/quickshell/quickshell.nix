@@ -19,7 +19,7 @@ in {
       import QtQuick
       import Quickshell
 
-      // Generated from theme.nix -- edit that, not this.
+      // Generated from theme/theme.nix -- edit that, not this.
       Singleton {
       ${colorProperties}
 
@@ -32,7 +32,7 @@ in {
       import QtQuick
       import Quickshell
 
-      // Generated from modules/base/quickshell/quickshell.nix -- edit that, not this.
+      // Generated from modules/features/de/quickshell/quickshell.nix -- edit that, not this.
       Singleton {
           readonly property string monitor: ${builtins.toJSON cfg.monitor};
 

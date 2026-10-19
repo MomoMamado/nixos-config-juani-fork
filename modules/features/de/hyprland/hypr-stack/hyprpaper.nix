@@ -1,11 +1,11 @@
-{
+{self, ...}: {
   flake.modules.homeManager.base = {
     config,
     lib,
     ...
   }: let
     monitors = config.hyprland.monitors;
-    metropolis = ../../../../../../assets/bgs/metropolis.png;
+    metropolis = self.assets + "/bgs/metropolis.png";
   in {
     services.hyprpaper = {
       enable = true;

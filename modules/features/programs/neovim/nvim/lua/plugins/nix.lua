@@ -1,5 +1,5 @@
 -- nil/alejandra are provided by the nixos-config flake (home.packages in
--- modules/features/base/programs/neovim/neovim.nix) and already on PATH, so use those instead of
+-- modules/features/programs/neovim/neovim.nix) and already on PATH, so use those instead of
 -- LazyVim's defaults (mason-built nil_ls, nixfmt).
 return {
   {
