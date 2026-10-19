@@ -2,9 +2,9 @@
   inherit (self) theme;
 in {
   # dconf.settings (here and in nautilus.nix) only applies with this on
-  flake.modules.nixos.base.programs.dconf.enable = true;
+  flake.modules.nixos.desktopEnvironment.programs.dconf.enable = true;
 
-  flake.modules.homeManager.base = {pkgs, ...}: let
+  flake.modules.homeManager.desktopEnvironment = {pkgs, ...}: let
     iconThemes = {
       papirus = {
         name = "Papirus-Dark";

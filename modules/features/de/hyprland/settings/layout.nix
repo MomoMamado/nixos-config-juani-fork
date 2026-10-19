@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.desktopEnvironment = {
     wayland.windowManager.hyprland.settings.config = {
       dwindle = {
         preserve_split = true; # You probably want this

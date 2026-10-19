@@ -7,7 +7,11 @@
     modules = with config.flake.modules.nixos; [
       laptopConfiguration
       common
-      base
+      homeManager
+      desktopEnvironment
+      system
+      packages
+      shell
       cds
       dev
       gaming

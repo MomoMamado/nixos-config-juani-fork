@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {pkgs, ...}: let
+  flake.modules.homeManager.desktopEnvironment = {pkgs, ...}: let
     cursorThemes = {
       bibata = {
         name = "Bibata-Modern-Classic";

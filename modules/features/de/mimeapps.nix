@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = let
+  flake.modules.homeManager.desktopEnvironment = let
     image = "org.gnome.Loupe.desktop";
     media = "vlc.desktop";
     editor = "org.gnome.TextEditor.desktop";

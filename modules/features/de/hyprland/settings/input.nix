@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.desktopEnvironment = {
     wayland.windowManager.hyprland.settings = {
       config.input = {
         kb_layout = "latam, us";

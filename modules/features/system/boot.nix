@@ -7,7 +7,7 @@
 
   ansi = colors: lib.concatStringsSep ";" colors;
 in {
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.modules.nixos.system = {pkgs, ...}: {
     boot = {
       kernelPackages = pkgs.linuxPackages_latest;
 

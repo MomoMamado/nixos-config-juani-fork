@@ -1,11 +1,11 @@
 {self, ...}: {
   # installs Hyprland and registers the session (SDDM, UWSM, portal, polkit)
-  flake.modules.nixos.base.programs.hyprland = {
+  flake.modules.nixos.desktopEnvironment.programs.hyprland = {
     enable = true;
     withUWSM = true;
   };
 
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.desktopEnvironment = {
     lib,
     pkgs,
     ...

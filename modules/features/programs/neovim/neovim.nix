@@ -1,9 +1,9 @@
 {self, ...}: {
-  flake.modules.nixos.base = {
+  flake.modules.nixos.packages = {
     programs.nix-ld.enable = true;
   };
 
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.packages = {
     config,
     lib,
     pkgs,

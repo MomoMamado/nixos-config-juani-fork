@@ -2,7 +2,7 @@
   inherit (self) theme;
 in {
   # this config is home-manager's (for the rasi helpers), not the flake's
-  flake.modules.homeManager.base = {config, ...}: let
+  flake.modules.homeManager.desktopEnvironment = {config, ...}: let
     inherit (config.lib.formats.rasi) mkLiteral;
     cube = self.assets + "/extra/cube.png";
 

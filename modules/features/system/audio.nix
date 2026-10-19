@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base = {
+  flake.modules.nixos.system = {
     security.rtkit.enable = true;
 
     services = {
@@ -11,6 +11,5 @@
         pulse.enable = true;
       };
     };
-
   };
 }

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = _: {
+  flake.modules.homeManager.desktopEnvironment = _: {
     services.hyprpolkitagent.enable = true;
   };
 }

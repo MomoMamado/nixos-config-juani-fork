@@ -1,9 +1,8 @@
 {inputs, ...}: {
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.packages = {
     imports = [inputs.zen-browser.homeModules.default];
 
-    # only what firefox sync doesn't cover; spaces, essentials, bookmarks,
-    # extensions and the rest of the settings come from the mozilla account
+    # only what mozilla account doesn't cover
     programs.zen-browser = {
       enable = true;
       setAsDefaultBrowser = true;

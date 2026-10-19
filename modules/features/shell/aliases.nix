@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base.home.shellAliases = {
+  flake.modules.homeManager.shell.home.shellAliases = {
     cls = "clear";
     lzg = "lazygit";
     rip = "abcde";

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  flake.modules.homeManager.packages = {pkgs, ...}: {
     home.packages = with pkgs; [
       bluetui
       wiremix

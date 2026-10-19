@@ -1,11 +1,11 @@
 {
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.modules.nixos.shell = {pkgs, ...}: {
     programs.zsh.enable = true;
 
     users.users.juani.shell = pkgs.zsh;
   };
 
-  flake.modules.homeManager.base.programs.zsh = {
+  flake.modules.homeManager.shell.programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;

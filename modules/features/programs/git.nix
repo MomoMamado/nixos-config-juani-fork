@@ -1,13 +1,15 @@
 {
-  flake.modules.homeManager.base.programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "Juan Diaz";
-        email = "juanignaciodiazpuig998@gmail.com";
+  flake.modules.homeManager.packages = {
+    programs.git = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Juan Diaz";
+          email = "juanignaciodiazpuig998@gmail.com";
+        };
+        init.defaultBranch = "main";
+        credential.helper = "store";
       };
-      init.defaultBranch = "main";
-      credential.helper = "store";
     };
   };
 }

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {lib, ...}: {
+  flake.modules.homeManager.desktopEnvironment = {lib, ...}: {
     services.swaync = {
       enable = true;
       style = ./style.css;

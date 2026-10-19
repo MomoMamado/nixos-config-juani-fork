@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self) theme;
 in {
-  flake.modules.homeManager.base.programs.starship = {
+  flake.modules.homeManager.shell.programs.starship = {
     enable = true;
     enableZshIntegration = true;
     settings = {

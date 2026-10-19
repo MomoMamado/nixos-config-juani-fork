@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = let
+  flake.modules.homeManager.desktopEnvironment = let
     # blur + ignore_alpha for a layer-shell namespace (bars, launchers, panels)
     blurLayer = namespace: [
       {

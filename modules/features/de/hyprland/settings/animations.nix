@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = let
+  flake.modules.homeManager.desktopEnvironment = let
     # hl.curve(name, { type = "bezier", points = { { x1, y1 }, { x2, y2 } } })
     bezier = name: x1: y1: x2: y2: {
       _args = [

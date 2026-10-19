@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self) theme;
 in {
-  flake.modules.homeManager.base.programs.kitty = {
+  flake.modules.homeManager.packages.programs.kitty = {
     enable = true;
 
     font = {

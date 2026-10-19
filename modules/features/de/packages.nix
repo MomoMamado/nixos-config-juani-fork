@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  flake.modules.homeManager.desktopEnvironment = {pkgs, ...}: {
     home.packages = with pkgs; [
       libnotify
       playerctl

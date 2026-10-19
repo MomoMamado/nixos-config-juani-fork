@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base.services = {
+  flake.modules.nixos.packages.services = {
     gvfs.enable = true; # trash, phones (MTP), network locations
 
     # file indexer behind the search
@@ -9,7 +9,7 @@
     };
   };
 
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.packages = {
     lib,
     pkgs,
     ...

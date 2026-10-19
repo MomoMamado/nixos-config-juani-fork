@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self) themeNoHash;
 in {
-  flake.modules.homeManager.base = let
+  flake.modules.homeManager.desktopEnvironment = let
     glassBeach2 = self.assets + "/bgs/glass-beach-2.jpg";
   in {
     programs.hyprlock = {

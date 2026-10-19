@@ -6,7 +6,7 @@
 }: {
   flake.modules.nixos = lib.mkMerge [
     {
-      base = {
+      homeManager = {
         imports = [inputs.home-manager.nixosModules.home-manager];
 
         home-manager = {
@@ -23,5 +23,5 @@
       config.flake.modules.homeManager)
   ];
 
-  flake.modules.homeManager.base.programs.home-manager.enable = true;
+  flake.modules.homeManager.homeManager.programs.home-manager.enable = true;
 }

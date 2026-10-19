@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.modules.nixos.desktopEnvironment = {pkgs, ...}: {
     services.displayManager.sddm = {
       enable = true;
       wayland.enable = true;

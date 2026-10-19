@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self) theme;
 in {
-  flake.modules.homeManager.base.programs.tmux = {
+  flake.modules.homeManager.packages.programs.tmux = {
     enable = true;
 
     mouse = true;

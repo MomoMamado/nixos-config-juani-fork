@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self) theme;
 in {
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.desktopEnvironment = {
     config,
     lib,
     pkgs,

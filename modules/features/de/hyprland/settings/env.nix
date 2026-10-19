@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {lib, ...}: {
+  flake.modules.homeManager.desktopEnvironment = {lib, ...}: {
     # hl.env(name, value)
     wayland.windowManager.hyprland.settings.env = lib.mapAttrsToList (name: value: {_args = [name value];}) {
       XCURSOR_SIZE = 24;

@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base = {
+  flake.modules.nixos.desktopEnvironment = {
     services.gnome.gnome-keyring.enable = true;
 
     # unlocked with the login password at SDDM

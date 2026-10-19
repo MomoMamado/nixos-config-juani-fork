@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self) themeNoHash;
 in {
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.desktopEnvironment = {
     wayland.windowManager.hyprland.settings.config = {
       general = {
         gaps_in = 4;

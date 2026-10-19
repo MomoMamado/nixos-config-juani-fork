@@ -8,7 +8,11 @@
       modules = with config.flake.modules.nixos; [
         desktopConfiguration
         common
-        base
+        homeManager
+        desktopEnvironment
+        system
+        packages
+        shell
         gaming
         dev
       ];

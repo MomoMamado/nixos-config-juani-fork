@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = {lib, ...}: {
+  flake.modules.homeManager.desktopEnvironment = {lib, ...}: {
     # hypridle, hyprpaper and hyprsunset are systemd user services (see hypr-stack/)
     wayland.windowManager.hyprland.settings.on = [
       {

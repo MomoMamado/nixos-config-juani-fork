@@ -1,6 +1,6 @@
 {
   # these programs only have NixOS modules (not home-manager ones)
-  flake.modules.nixos.base = {
+  flake.modules.nixos.packages = {
     programs = {
       localsend = {
         enable = true;
@@ -11,7 +11,7 @@
     };
   };
 
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  flake.modules.homeManager.packages = {pkgs, ...}: {
     programs = {
       discord.enable = true;
       obs-studio.enable = true;

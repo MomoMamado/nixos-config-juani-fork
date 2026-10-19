@@ -30,9 +30,9 @@
 
   calendarSpan = color: "<span color='${color}'><b>{}</b></span>";
 in {
-  flake.modules.nixos.base.nixpkgs.overlays = [inputs.waybar.overlays.default];
+  flake.modules.nixos.desktopEnvironment.nixpkgs.overlays = [inputs.waybar.overlays.default];
 
-  flake.modules.homeManager.base.programs.waybar = {
+  flake.modules.homeManager.desktopEnvironment.programs.waybar = {
     enable = true;
     systemd.enable = true;
 

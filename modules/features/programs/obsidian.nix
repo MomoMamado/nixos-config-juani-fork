@@ -1,8 +1,8 @@
 {inputs, ...}: {
   # pkgs.obsidianPlugins, for the community plugins below
-  flake.modules.nixos.base.nixpkgs.overlays = [inputs.obsidian-extensions.overlays.default];
+  flake.modules.nixos.packages.nixpkgs.overlays = [inputs.obsidian-extensions.overlays.default];
 
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  flake.modules.homeManager.packages = {pkgs, ...}: {
     programs.obsidian = {
       enable = true;
 
