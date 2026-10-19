@@ -9,7 +9,7 @@
 
     hardware.nvidia = {
       open = true; # required for RTX 50 series
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       powerManagement.enable = true; # avoids a black or garbled screen after suspend
     };
 
