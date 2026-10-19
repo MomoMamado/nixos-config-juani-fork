@@ -23,5 +23,7 @@
       config.flake.modules.homeManager)
   ];
 
-  flake.modules.homeManager.homeManager.programs.home-manager.enable = true;
+  flake.modules.homeManager = {
+    homeManager.programs.home-manager.enable = true;
+  };
 }
