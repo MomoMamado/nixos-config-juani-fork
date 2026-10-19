@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.server = {
+  flake.modules.nixos.serverConfiguration = {
     fileSystems."/data" = {
       device = "/dev/disk/by-label/data";
       fsType = "ext4";

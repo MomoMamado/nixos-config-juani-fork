@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.server = {lib, ...}: {
+  flake.modules.nixos.serverConfiguration = {lib, ...}: {
     services.homepage-dashboard = {
       enable = true;
       openFirewall = true;

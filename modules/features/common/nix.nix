@@ -15,9 +15,9 @@
     };
 
     environment.shellAliases = {
-      rebuild = "sudo nixos-rebuild switch -L --flake ~/nixos-config";
-      update = "sudo nix flake update --flake ~/nixos-config";
-      rollback = "sudo nixos-rebuild switch --rollback";
+      nrs = "sudo nixos-rebuild switch -L --flake ~/nixos-config";
+      nfu = "sudo nix flake update --flake ~/nixos-config";
+      nrsr = "sudo nixos-rebuild switch --rollback";
     };
   };
 }

@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.server = {pkgs, ...}: {
+  flake.modules.nixos.serverConfiguration = {pkgs, ...}: {
     services = {
       duckdns = {
         enable = true;

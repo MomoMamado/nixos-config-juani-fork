@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.desktop = {config, ...}: {
+  flake.modules.nixos.desktopConfiguration = {config, ...}: {
     services.xserver.videoDrivers = ["nvidia"];
 
     hardware.graphics = {

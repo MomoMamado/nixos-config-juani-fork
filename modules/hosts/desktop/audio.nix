@@ -1,6 +1,5 @@
 {
-  flake.modules.nixos.desktop = {
-    # Friendlier output names; node.description is what waybar shows as {desc}
+  flake.modules.nixos.desktopConfiguration = {
     services.pipewire.wireplumber.extraConfig."51-rename-outputs" = {
       "monitor.alsa.rules" = [
         {

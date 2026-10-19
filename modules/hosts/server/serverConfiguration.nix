@@ -1,6 +1,6 @@
 {
   flake = {
-    modules.nixos.server = {pkgs, ...}: {
+    modules.nixos.serverConfiguration = {pkgs, ...}: {
       imports = [./_hardware-configuration.nix];
 
       networking.hostName = "nixos-server";

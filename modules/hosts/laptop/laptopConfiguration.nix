@@ -1,7 +1,7 @@
 {
   flake = {
     modules = {
-      nixos.laptop = {pkgs, ...}: {
+      nixos.laptopConfiguration = {pkgs, ...}: {
         imports = [./_hardware-configuration.nix];
 
         networking.hostName = "nixos-laptop";
@@ -18,7 +18,7 @@
         system.stateVersion = "26.05";
       };
 
-      homeManager.laptop = {
+      homeManager.laptopConfiguration = {
         home.stateVersion = "26.05";
 
         quickshell = {

@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.server = {pkgs, ...}: {
+  flake.modules.nixos.serverConfiguration = {pkgs, ...}: {
     services.nextcloud = {
       enable = true;
       package = pkgs.nextcloud35;

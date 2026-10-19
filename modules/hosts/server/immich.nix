@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.server = {
+  flake.modules.nixos.serverConfiguration = {
     services.immich = {
       enable = true;
       host = "0.0.0.0";

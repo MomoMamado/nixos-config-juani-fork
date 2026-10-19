@@ -1,6 +1,6 @@
 {
   flake.modules = {
-    nixos.desktop = {pkgs, ...}: {
+    nixos.desktopConfiguration = {pkgs, ...}: {
       imports = [./_hardware-configuration.nix];
 
       networking.hostName = "nixos-desktop";
@@ -15,7 +15,7 @@
       system.stateVersion = "26.05";
     };
 
-    homeManager.desktop = {
+    homeManager.desktopConfiguration = {
       home.stateVersion = "26.05";
 
       quickshell = {
