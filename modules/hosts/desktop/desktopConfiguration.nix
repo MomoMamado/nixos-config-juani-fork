@@ -15,8 +15,24 @@
       system.stateVersion = "26.05";
     };
 
-    homeManager.desktopConfiguration = {
+    homeManager.desktopConfiguration = {pkgs, ...}: {
       home.stateVersion = "26.05";
+
+      systemd.user.services.ckb-next = {
+        Unit = {
+          Description = "ckb-next keyboard bindings";
+          PartOf = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          ExecStart = "${pkgs.ckb-next}/bin/ckb-next --background";
+          Restart = "on-failure";
+          Slice = "session.slice";
+        };
+
+        Install.WantedBy = ["graphical-session.target"];
+      };
 
       quickshell = {
         enable = true;
