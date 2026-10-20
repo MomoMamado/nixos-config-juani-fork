@@ -1,9 +1,25 @@
 {
-  flake.modules.nixos.serverConfiguration = {pkgs, ...}: let
+  flake.modules.nixos.serverConfiguration = {
+    config,
+    pkgs,
+    ...
+  }: let
     mcwebhook = pkgs.writeShellApplication {
       name = "mcwebhook";
       runtimeInputs = [pkgs.curl];
       text = builtins.readFile ./mcwebhook.sh;
+    };
+
+    mcbackup = pkgs.writeShellApplication {
+      name = "mcbackup";
+      runtimeInputs = [
+        mcwebhook
+        pkgs.borgbackup
+        pkgs.coreutils
+        pkgs.gnugrep
+        pkgs.systemd
+      ];
+      text = builtins.readFile ./mcbackup.sh;
     };
   in {
     services = {
@@ -62,6 +78,23 @@
         LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
         ExecStartPost = ["-${mcwebhook}/bin/mcwebhook up"];
         ExecStopPost = ["-${mcwebhook}/bin/mcwebhook down"];
+      };
+    };
+
+    # manual world backup into the nightly job's borg repo (see docs/server-setup.md)
+    systemd.services.minecraft-backup = {
+      description = "Minecraft world backup";
+      unitConfig.RequiresMountsFor = config.services.borgbackup.jobs.data.repo;
+      environment = {
+        MC_DIR = config.services.minecraft-server.dataDir;
+        MC_STDIN = config.systemd.sockets.minecraft-server.socketConfig.ListenFIFO;
+        BORG_REPO = config.services.borgbackup.jobs.data.repo;
+        BORG_PASSCOMMAND = config.services.borgbackup.jobs.data.encryption.passCommand;
+      };
+      serviceConfig = {
+        Type = "oneshot";
+        LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
+        ExecStart = "${mcbackup}/bin/mcbackup";
       };
     };
 

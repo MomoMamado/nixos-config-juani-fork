@@ -2,6 +2,8 @@
 
 Nextcloud and Immich are backed up every night to an external USB disk with [Borg](https://www.borgbackup.org/). The config is in `modules/hosts/server/backup.nix` and the mount in `modules/hosts/server/disks.nix`. Useful commands are in [server-commands.md](server-commands.md).
 
+The Minecraft world isn't part of the nightly backup. It's backed up by hand into the same repository as `minecraft-<date>` archives (see [World backup](server-setup.md#world-backup)), and restored as explained in [The Minecraft world](#the-minecraft-world).
+
 | | |
 | --- | --- |
 | **What** | `/data/nextcloud`, `/data/immich` and a dump of all PostgreSQL databases (`/var/backup/postgres.sql`) |
@@ -108,13 +110,39 @@ Not tested yet, only single files have been restored.
 
 ```bash
 sudo systemctl stop nextcloud-cron.timer phpfpm-nextcloud nginx immich-server
-sudo borg-job-data list --last 1           # latest archive name
+sudo borg-job-data list --glob-archives 'nixos-server-data-*' --last 1 # latest archive name, skipping minecraft-* ones
 cd / && sudo borg-job-data extract ::<archive>
 sudo cat /var/backup/postgres.sql | sudo -u postgres psql postgres
 sudo systemctl start phpfpm-nextcloud nginx immich-server nextcloud-cron.timer
 sudo nextcloud-occ maintenance:mode --off
 sudo nextcloud-occ maintenance:data-fingerprint
 ```
+
+### The Minecraft world
+
+The `minecraft-<date>` archives contain `/var/lib/minecraft` (worlds, plugins and server files), without `logs`, `cache`, `libraries` and `versions`, which Paper recreates on start. `server.properties` and the whitelist are rewritten from `minecraft.nix` on every start, so the restored copies don't matter.
+
+1. Pick the archive to restore with `sudo borg-job-data list --glob-archives 'minecraft-*'`.
+2. Stop the server with `sudo systemctl stop minecraft-server`.
+3. Move the current folder aside to `/var/lib/minecraft.old`. Extracting on top of it would leave behind chunks created after the backup, mixing both versions.
+4. Extract the archive into `/`, which puts the files back in `/var/lib/minecraft`.
+5. Make sure everything belongs to the `minecraft` user.
+6. Start the server, join and check the world is the expected one.
+7. Once everything works, delete `/var/lib/minecraft.old`.
+
+```bash
+sudo borg-job-data list --glob-archives 'minecraft-*'
+sudo systemctl stop minecraft-server
+sudo mv /var/lib/minecraft /var/lib/minecraft.old
+cd / && sudo borg-job-data extract ::<archive>
+sudo chown -R minecraft:minecraft /var/lib/minecraft
+sudo systemctl start minecraft-server
+
+# once it works
+sudo rm -rf /var/lib/minecraft.old
+```
+
+To restore just one dimension, stop the server, move only that folder aside (e.g. `/var/lib/minecraft/server-world_nether`) and add its path to the extract command: `sudo borg-job-data extract ::<archive> var/lib/minecraft/server-world_nether`.
 
 ## Notes
 

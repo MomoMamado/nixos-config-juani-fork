@@ -60,6 +60,24 @@ systemctl show minecraft-server -p ExecStartPost -p ExecStopPost -p LoadCredenti
 journalctl -u minecraft-server
 ```
 
+### World backup
+
+The world isn't part of the nightly borg backup, it's backed up manually into the same repo (`/backup/borg`) as `minecraft-<date>` archives. The backup pauses world saving while it runs, so the server can stay up, and sends a notification to the Discord webhook. Old `minecraft-*` archives are pruned (7 daily, 4 weekly, 6 monthly).
+
+1. Run `sudo systemctl start minecraft-backup`. The command returns once the backup is done.
+2. Verify with `journalctl -u minecraft-backup`, it should show borg's stats. Also verify with `borg list`, there should be a new `minecraft-<date>` archive.
+
+Commands:
+
+```bash
+sudo systemctl start minecraft-backup
+
+# === verification ===
+journalctl -u minecraft-backup
+systemctl status minecraft-backup
+sudo BORG_PASSCOMMAND='cat /etc/borg-passphrase' borg list /backup/borg
+```
+
 ## Nextcloud 
 Nextcloud is used as a self-hosted replacement for OneDrive/Google Drive (file storage and sync). The files are stored in `/data/nextcloud`. To set it up the following steps should be followed:
 
