@@ -15,15 +15,15 @@ fi
 notify() {
   case $1 in
   "up")
-    REQUEST='{"embeds": [{"title": "Server Up"}]}'
+    REQUEST='{"embeds": [{"title": "Server Up", "color": 5763719}]}'
     ;;
 
   "down")
-    REQUEST='{"embeds": [{"title": "Server Closed"}]}'
+    REQUEST='{"embeds": [{"title": "Server Closed", "color": 15548997}]}'
     ;;
 
   "world-backup")
-    REQUEST='{"embeds": [{"title": "Server backing up world..."}]}'
+    REQUEST='{"embeds": [{"title": "Server backing up world...", "color": 15105570}]}'
     ;;
 
   *)
