@@ -2,6 +2,8 @@
 
 ## Minecraft
 
+### Server
+
 The server needs a DuckDNS token to have a Dynamic DNS, to set the token up the following steps should be followed:
 
 1. Go to duckdns.org, create an account and get a token.
@@ -32,6 +34,30 @@ rebuild # sudo nixos-rebuild switch -L --flake ~/nixos-config
 # === verification ===
 journalctl -u duckdns
 nslookup <created-url>
+
+```
+### Webhooks
+
+1. Go to a discord channel, and get a webhook URL.
+2. Create and edit the file where the URL will be stored with `sudoedit /etc/discord-mc-webhook-url`.
+3. Enter the URL obtained in step 1.
+4. Set the permissions of the file so it can only be read by root with `sudo chmod 600 /etc/discord-mc-webhook-url`.
+5. Run `rebuild` and after that run `systemctl restart minecraft-server`.
+6. Verify with `systemctl show minecraft-server -p ExecStartPost -p ExecStopPost -p LoadCredential` and `journalctl -u minecraft-server`
+
+Commands:
+
+```bash
+# === url ===
+sudoedit /etc/discord-mc-webhook-url
+# paste the discord webhook url
+sudo chmod 600 /etc/discord-mc-webhook-url
+
+rebuild # sudo nixos-rebuild switch -L --flake ~/nixos-config
+
+# === verification ===
+systemctl show minecraft-server -p ExecStartPost -p ExecStopPost -p LoadCredential
+journalctl -u minecraft-server
 ```
 
 ## Nextcloud 

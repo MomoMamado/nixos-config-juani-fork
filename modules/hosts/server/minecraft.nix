@@ -1,5 +1,11 @@
 {
-  flake.modules.nixos.serverConfiguration = {pkgs, ...}: {
+  flake.modules.nixos.serverConfiguration = {pkgs, ...}: let
+    mcwebhook = pkgs.writeShellApplication {
+      name = "mcwebhook";
+      runtimeInputs = [pkgs.curl];
+      text = builtins.readFile ./mcwebhook.sh;
+    };
+  in {
     services = {
       duckdns = {
         enable = true;
@@ -46,6 +52,16 @@
           Tute2979 = "e7a45527-3142-4ca8-9366-e35fff6d0f0b";
           FedesUy = "0c6313b9-909e-407b-99ff-4b3694e8478d";
         };
+      };
+    };
+
+    systemd.services.minecraft-server = {
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+      serviceConfig = {
+        LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
+        ExecStartPost = ["-${mcwebhook}/bin/mcwebhook up"];
+        ExecStopPost = ["-${mcwebhook}/bin/mcwebhook down"];
       };
     };
 
