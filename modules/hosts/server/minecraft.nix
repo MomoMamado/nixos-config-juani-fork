@@ -13,8 +13,9 @@
     mcstopped = pkgs.writeShellApplication {
       name = "mcstopped";
       runtimeInputs = [mcwebhook pkgs.gnugrep];
+      # the service is socket activated, so a rebuild may only list the socket to start again
       text = ''
-        if grep -qsx minecraft-server.service /run/nixos/start-list /run/nixos/restart-list; then
+        if grep -qsxE 'minecraft-server\.(service|socket)' /run/nixos/start-list /run/nixos/restart-list; then
           mcwebhook maintenance
         else
           mcwebhook down
