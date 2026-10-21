@@ -28,6 +28,7 @@
       gnome-text-editor
       vlc
       pinta
+      stremio-linux-shell
     ];
   };
 }
