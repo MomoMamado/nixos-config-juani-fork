@@ -5,6 +5,7 @@
       extraEnvironment = {
         PORT = toString config.ports.karakeep;
         NEXTAUTH_URL = "http://192.168.1.22:${toString config.ports.karakeep}";
+        DISABLE_SIGNUPS = "true";
       };
     };
 

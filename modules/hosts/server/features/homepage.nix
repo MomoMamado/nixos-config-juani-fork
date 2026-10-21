@@ -11,6 +11,7 @@
       openFirewall = true;
       listenPort = ports.homepage;
       allowedHosts = "192.168.1.22:${toString ports.homepage}";
+      environmentFiles = ["/etc/homepage-secrets"];
 
       widgets = [
         {
@@ -76,6 +77,11 @@
                 icon = "karakeep.png";
                 href = "http://192.168.1.22:${toString ports.karakeep}";
                 siteMonitor = "http://localhost:${toString ports.karakeep}";
+                widget = {
+                  type = "karakeep";
+                  url = "http://localhost:${toString ports.karakeep}";
+                  key = "{{HOMEPAGE_VAR_KARAKEEP_KEY}}";
+                };
               };
             }
             {

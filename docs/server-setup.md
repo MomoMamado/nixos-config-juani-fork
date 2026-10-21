@@ -29,7 +29,7 @@ sudoedit /etc/duckdns-domains
 # write the subdomain name
 sudo chmod 600 /etc/duckdns-domains
 
-rebuild # sudo nixos-rebuild switch -L --flake ~/nixos-config
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
 
 # === verification ===
 journalctl -u duckdns
@@ -53,7 +53,7 @@ sudoedit /etc/discord-mc-webhook-url
 # paste the discord webhook url
 sudo chmod 600 /etc/discord-mc-webhook-url
 
-rebuild # sudo nixos-rebuild switch -L --flake ~/nixos-config
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
 
 # === verification ===
 systemctl show minecraft-server -p ExecStartPost -p ExecStopPost -p LoadCredential
@@ -98,7 +98,7 @@ sudo chmod 600 /etc/nextcloud-admin-pass
 
 findmnt /data
 
-rebuild # sudo nixos-rebuild switch -L --flake ~/nixos-config
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
 
 # === verification ===
 systemctl status nextcloud-setup phpfpm-nextcloud nginx
@@ -119,3 +119,27 @@ sudo nextcloud-occ files:scan juani
 
 - Major version upgrades (e.g. `nextcloud35` → `nextcloud36`) must be done one version at a time.
 - Backups (files and database) run every night, see [backup-setup.md](backup-setup.md).
+
+## Homepage 
+
+Homepage needs some API Keys to show certain service information. The keys should be stored inside /etc/homepage-secrets
+
+### Karakeep
+
+For Karakeep, it is possible to create an API Key from user settings inside the app.
+
+1. Go to where Karakeep is hosted, create an account and get an API key.
+2. Create and edit the file where the secret will be stored with `sudoedit /etc/homepage-secrets`.
+3. Enter the API key obtained in step 1 with the following format: `HOMEPAGE_VAR_KARAKEEP_KEY=<api-key>`.
+4. Set the permissions of the file so it can only be read by root with `sudo chmod 600 /etc/homepage-secrets`.
+
+Commands:
+
+```bash
+# === secrets ===
+sudoedit /etc/homepage-secrets
+# write HOMEPAGE_VAR_KARAKEEP_KEY=<api-key>
+sudo chmod 600 /etc/homepage-secrets
+
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+```
