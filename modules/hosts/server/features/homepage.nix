@@ -72,6 +72,13 @@
               };
             }
             {
+              "Karakeep" = {
+                icon = "karakeep.png";
+                href = "http://192.168.1.22:${toString ports.karakeep}";
+                siteMonitor = "http://localhost:${toString ports.karakeep}";
+              };
+            }
+            {
               "Scrutiny" = {
                 icon = "scrutiny.png";
                 href = "http://192.168.1.22:${toString ports.scrutiny}";

@@ -12,8 +12,10 @@
         "/data/nextcloud"
         "/data/immich"
         "/data/trilium/backup" # trilium's own daily/weekly/monthly db snapshots
+        "/data/karakeep"
         "/var/backup" # database dump, see ExecStartPre
       ];
+      exclude = ["/data/karakeep/db.db*"];
       repo = "/backup/borg";
       encryption = {
         mode = "repokey-blake2";
@@ -37,12 +39,20 @@
     systemd.services.borgbackup-job-data.serviceConfig = {
       ExecStartPre = [
         "+${occ} maintenance:mode --on"
+
         "+${pkgs.writeShellScript "dump-databases" ''
           set -euo pipefail
           mkdir -p /var/backup
+
+          # postgres (nextcloud, immich)
           ${pkgs.util-linux}/bin/runuser -u postgres -- \
             ${config.services.postgresql.package}/bin/pg_dumpall --clean --if-exists > /var/backup/postgres.sql
           chmod 600 /var/backup/postgres.sql
+
+          # karakeep
+          ${pkgs.util-linux}/bin/runuser -u karakeep -- \
+            ${pkgs.sqlite}/bin/sqlite3 /data/karakeep/db.db .dump > /var/backup/karakeep.sql
+          chmod 600 /var/backup/karakeep.sql
         ''}"
       ];
       ExecStopPost = ["+${occ} maintenance:mode --off"];

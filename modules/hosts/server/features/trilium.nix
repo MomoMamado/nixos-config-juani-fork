@@ -8,8 +8,6 @@
       noBackup = false;
     };
 
-    networking.firewall.allowedTCPPorts = [config.ports.trilium];
-
     systemd.services.trilium-server = {
       unitConfig.RequiresMountsFor = "/data/trilium";
       restartTriggers = [
