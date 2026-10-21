@@ -1,6 +1,7 @@
 {
   flake.modules.nixos.serverConfiguration = {
     config,
+    lib,
     pkgs,
     ...
   }: let
@@ -89,6 +90,15 @@
       after = ["network-online.target"];
       wants = ["network-online.target"];
       environment.MC_WEBHOOK_URL_FILE = "/etc/discord-mc-webhook-url";
+      # paper rewrites its own config, so patch the keys in place instead of replacing the file.
+      preStart = lib.mkAfter ''
+        if [ -f config/paper-global.yml ]; then
+          ${lib.getExe pkgs.yq-go} -i '
+            .["unsupported-settings"]["allow-permanent-block-break-exploits"] = true |
+            .["unsupported-settings"]["allow-unsafe-end-portal-teleportation"] = true
+          ' config/paper-global.yml
+        fi
+      '';
       serviceConfig = {
         LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
         ExecStartPost = ["-${mcwebhook}/bin/mcwebhook up"];
