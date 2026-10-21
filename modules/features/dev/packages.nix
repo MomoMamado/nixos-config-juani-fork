@@ -6,6 +6,7 @@
       terraform
       python3
       dotnet-sdk
+      k6
 
       lazygit
       lazysql
