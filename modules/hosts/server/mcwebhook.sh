@@ -3,7 +3,7 @@
 set -euo pipefail
 
 usage() {
-  echo "mcwebhook [up|down|world-backup]"
+  echo "mcwebhook [up|down|maintenance|world-backup]"
 }
 
 # the value of the first parameter or an empty string if empty or unset
@@ -20,6 +20,10 @@ notify() {
 
   "down")
     REQUEST='{"embeds": [{"title": "Server Closed", "color": 15548997}]}'
+    ;;
+
+  "maintenance")
+    REQUEST='{"embeds": [{"title": "Server Maintenance", "description": "The server is being updated, it will be back shortly", "color": 3447003}]}'
     ;;
 
   "world-backup")

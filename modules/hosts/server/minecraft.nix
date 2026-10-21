@@ -10,6 +10,18 @@
       text = builtins.readFile ./mcwebhook.sh;
     };
 
+    mcstopped = pkgs.writeShellApplication {
+      name = "mcstopped";
+      runtimeInputs = [mcwebhook pkgs.gnugrep];
+      text = ''
+        if grep -qsx minecraft-server.service /run/nixos/start-list /run/nixos/restart-list; then
+          mcwebhook maintenance
+        else
+          mcwebhook down
+        fi
+      '';
+    };
+
     mcbackup = pkgs.writeShellApplication {
       name = "mcbackup";
       runtimeInputs = [
@@ -78,7 +90,7 @@
       serviceConfig = {
         LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
         ExecStartPost = ["-${mcwebhook}/bin/mcwebhook up"];
-        ExecStopPost = ["-${mcwebhook}/bin/mcwebhook down"];
+        ExecStopPost = ["-${mcstopped}/bin/mcstopped"];
       };
     };
 
