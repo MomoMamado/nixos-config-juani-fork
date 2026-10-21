@@ -87,10 +87,12 @@
     systemd.services.minecraft-server = {
       after = ["network-online.target"];
       wants = ["network-online.target"];
+      environment.MC_WEBHOOK_URL_FILE = "/etc/discord-mc-webhook-url";
       serviceConfig = {
         LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
         ExecStartPost = ["-${mcwebhook}/bin/mcwebhook up"];
-        ExecStopPost = ["-${mcstopped}/bin/mcstopped"];
+        # "+" runs it as root, since it has to read the url file without the credential
+        ExecStopPost = ["-+${mcstopped}/bin/mcstopped"];
       };
     };
 

@@ -37,7 +37,12 @@ notify() {
     ;;
   esac
 
-  WEBHOOK_URL=$(cat "$CREDENTIALS_DIRECTORY"/mc-ds-webhook)
+  # systemd doesn't pass credentials to ExecStopPost, so there the url file is read directly
+  if [[ -n ${CREDENTIALS_DIRECTORY:-} ]]; then
+    WEBHOOK_URL=$(cat "$CREDENTIALS_DIRECTORY"/mc-ds-webhook)
+  else
+    WEBHOOK_URL=$(cat "$MC_WEBHOOK_URL_FILE")
+  fi
   curl -sS -f --max-time 10 -o /dev/null -H "Content-Type: application/json" -d "$REQUEST" "$WEBHOOK_URL"
 }
 
