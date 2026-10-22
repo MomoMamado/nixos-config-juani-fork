@@ -43,7 +43,7 @@ nslookup <created-url>
 3. Enter the URL obtained in step 1.
 4. Set the permissions of the file so it can only be read by root with `sudo chmod 600 /etc/discord-mc-webhook-url`.
 5. Run `rebuild` and after that run `systemctl restart minecraft-server`.
-6. Verify with `systemctl show minecraft-server -p ExecStartPost -p ExecStopPost -p LoadCredential` and `journalctl -u minecraft-server`
+6. Verify with `systemctl show minecraft-server -p ExecStartPost -p ExecStopPost` and `journalctl -u minecraft-server`
 
 Commands:
 
@@ -56,7 +56,7 @@ sudo chmod 600 /etc/discord-mc-webhook-url
 nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
 
 # === verification ===
-systemctl show minecraft-server -p ExecStartPost -p ExecStopPost -p LoadCredential
+systemctl show minecraft-server -p ExecStartPost -p ExecStopPost
 journalctl -u minecraft-server
 ```
 
@@ -64,17 +64,15 @@ journalctl -u minecraft-server
 
 The world isn't part of the nightly borg backup, it's backed up manually into the same repo (`/backup/borg`) as `minecraft-<date>` archives. The backup pauses world saving while it runs, so the server can stay up, and sends a notification to the Discord webhook. Old `minecraft-*` archives are pruned (7 daily, 4 weekly, 6 monthly).
 
-1. Run `sudo systemctl start minecraft-backup`. The command returns once the backup is done.
-2. Verify with `journalctl -u minecraft-backup`, it should show borg's stats. Also verify with `borg list`, there should be a new `minecraft-<date>` archive.
+1. Run `mcmanage backup`. It asks for your sudo password and returns once the backup is done.
+2. Verify that it printed borg's stats at the end. Also verify with `borg list`, there should be a new `minecraft-<date>` archive.
 
 Commands:
 
 ```bash
-sudo systemctl start minecraft-backup
+mcmanage backup
 
 # === verification ===
-journalctl -u minecraft-backup
-systemctl status minecraft-backup
 sudo BORG_PASSCOMMAND='cat /etc/borg-passphrase' borg list /backup/borg
 ```
 

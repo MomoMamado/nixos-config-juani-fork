@@ -5,35 +5,23 @@
     pkgs,
     ...
   }: let
-    mcwebhook = pkgs.writeShellApplication {
-      name = "mcwebhook";
-      runtimeInputs = [pkgs.curl];
-      text = builtins.readFile ../scripts/mcwebhook.sh;
-    };
-
-    mcstopped = pkgs.writeShellApplication {
-      name = "mcstopped";
-      runtimeInputs = [mcwebhook pkgs.gnugrep];
-      # the service is socket activated, so a rebuild may only list the socket to start again
-      text = ''
-        if grep -qsxE 'minecraft-server\.(service|socket)' /run/nixos/start-list /run/nixos/restart-list; then
-          mcwebhook maintenance
-        else
-          mcwebhook down
-        fi
-      '';
-    };
-
-    mcbackup = pkgs.writeShellApplication {
-      name = "mcbackup";
+    mcmanage = pkgs.writeShellApplication {
+      name = "mcmanage";
       runtimeInputs = [
-        mcwebhook
         pkgs.borgbackup
         pkgs.coreutils
+        pkgs.curl
         pkgs.gnugrep
         pkgs.systemd
       ];
-      text = builtins.readFile ../scripts/mcbackup.sh;
+      runtimeEnv = {
+        MC_DIR = config.services.minecraft-server.dataDir;
+        MC_STDIN = config.systemd.sockets.minecraft-server.socketConfig.ListenFIFO;
+        MC_WEBHOOK_URL_FILE = "/etc/discord-mc-webhook-url";
+        BORG_REPO = config.services.borgbackup.jobs.data.repo;
+        BORG_PASSCOMMAND = config.services.borgbackup.jobs.data.encryption.passCommand;
+      };
+      text = builtins.readFile ../scripts/mcmanage.sh;
     };
   in {
     services = {
@@ -89,7 +77,6 @@
     systemd.services.minecraft-server = {
       after = ["network-online.target"];
       wants = ["network-online.target"];
-      environment.MC_WEBHOOK_URL_FILE = "/etc/discord-mc-webhook-url";
       # paper rewrites its own config, so patch the keys in place instead of replacing the file.
       preStart = lib.mkAfter ''
         if [ -f config/paper-global.yml ]; then
@@ -100,39 +87,14 @@
         fi
       '';
       serviceConfig = {
-        LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
-        ExecStartPost = ["-${mcwebhook}/bin/mcwebhook up"];
-        # "+" runs it as root, since it has to read the url file without the credential
-        ExecStopPost = ["-+${mcstopped}/bin/mcstopped"];
-      };
-    };
-
-    # manual world backup into the nightly job's borg repo (see docs/server-setup.md)
-    systemd.services.minecraft-backup = {
-      description = "Minecraft world backup";
-      unitConfig.RequiresMountsFor = config.services.borgbackup.jobs.data.repo;
-      environment = {
-        MC_DIR = config.services.minecraft-server.dataDir;
-        MC_STDIN = config.systemd.sockets.minecraft-server.socketConfig.ListenFIFO;
-        BORG_REPO = config.services.borgbackup.jobs.data.repo;
-        BORG_PASSCOMMAND = config.services.borgbackup.jobs.data.encryption.passCommand;
-      };
-      serviceConfig = {
-        Type = "oneshot";
-        LoadCredential = "mc-ds-webhook:/etc/discord-mc-webhook-url";
-        ExecStart = "${mcbackup}/bin/mcbackup";
+        # "+" runs them as root, since the webhook url file is only readable by root
+        ExecStartPost = ["-+${mcmanage}/bin/mcmanage notify up"];
+        ExecStopPost = ["-+${mcmanage}/bin/mcmanage stopped"];
       };
     };
 
     users.users.juani.extraGroups = ["minecraft"];
 
-    environment.systemPackages = [
-      (pkgs.writeShellScriptBin "mc" ''
-        since=$(date +%s)
-        echo "$*" > /run/minecraft-server.stdin
-        sleep 1
-        journalctl -u minecraft-server --since "@$since" -o cat --no-pager
-      '')
-    ];
+    environment.systemPackages = [mcmanage];
   };
 }
