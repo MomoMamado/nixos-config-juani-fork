@@ -81,6 +81,11 @@
                 icon = "trilium.png";
                 href = "http://192.168.1.22:${toString ports.trilium}";
                 siteMonitor = "http://localhost:${toString ports.trilium}";
+                widget = {
+                  type = "trilium";
+                  url = "http://localhost:${toString ports.trilium}";
+                  key = "{{HOMEPAGE_VAR_TRILIUM_KEY}}";
+                };
               };
             }
             {
