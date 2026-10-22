@@ -7,7 +7,8 @@
     options.serverHost = lib.mkOption {
       type = lib.types.str;
       description = "Hostname or IP of the server, without scheme or port.";
-      default = "192.168.1.22";
+      # magicdns name for tailscale
+      default = "nixos-server";
     };
 
     options.serverUrl = lib.mkOption {

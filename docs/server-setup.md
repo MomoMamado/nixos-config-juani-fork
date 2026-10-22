@@ -86,8 +86,8 @@ Nextcloud is used as a self-hosted replacement for OneDrive/Google Drive (file s
 3. Make sure the data disk is mounted with `findmnt /data`. Nextcloud won't start without it.
 4. Run `rebuild`. The password file must exist before this, otherwise the first setup fails. It's only read on the first install; after that the password is changed from the web UI.
 5. Verify with `systemctl status nextcloud-setup phpfpm-nextcloud nginx` and `sudo nextcloud-occ status`. It should say `installed: true`.
-6. Open `http://192.168.1.22` and log in with the user `juani` and the password from step 1.
-7. On computers, access the files from the browser at `http://192.168.1.22`. On phones, install the Nextcloud app and use `http://192.168.1.22` as the server address.
+6. Open `http://nixos-server` and log in with the user `juani` and the password from step 1.
+7. On computers, access the files from the browser at `http://nixos-server`. On phones, install the Nextcloud app and use `http://nixos-server` as the server address.
 
 Commands:
 
@@ -220,4 +220,28 @@ sudo systemctl restart homepage-dashboard
 
 # === verification ===
 curl -H "Authorization: <token>" "http://localhost:8002/etapi/metrics?format=json"
+```
+
+## Tailscale
+
+Tailscale gives remote access to every service without opening ports to the internet. The server and each device join the same tailnet, and MagicDNS makes `nixos-server` resolve to the server from any of them. All service URLs use `nixos-server` (see `options/url.nix`), so **every device that uses the server needs Tailscale running, even at home**. On the LAN the traffic still goes directly between devices.
+
+1. Run `rebuild` and check the daemon is running with `systemctl status tailscaled`.
+2. Log the server in with `sudo tailscale up`. Open the link it prints and log in with the Tailscale account.
+3. In the admin console (https://login.tailscale.com/admin/machines), open the server's `...` menu and choose **Disable key expiry**. Otherwise the server drops off the tailnet every 180 days until it's logged in again.
+4. Check MagicDNS is on in the DNS tab of the admin console (it is by default for new tailnets).
+5. Install Tailscale on every other device and log in with the same account. The desktop and laptop already have it (`modules/features/system/tailscale-client.nix`), so there it's only `rebuild` and `sudo tailscale up`. On phones, use the Tailscale app.
+6. Verify from another device with `tailscale ping nixos-server`, then open `http://nixos-server:8000`.
+7. In the Immich and Nextcloud phone apps, change the server address to `http://nixos-server:8001` and `http://nixos-server`.
+
+Commands:
+
+```bash
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+
+sudo tailscale up
+
+# === verification ===
+tailscale status          # devices on the tailnet and how they're connected
+tailscale ping nixos-server # from another device, "via <ip>" means a direct connection, "via DERP" means relayed
 ```
