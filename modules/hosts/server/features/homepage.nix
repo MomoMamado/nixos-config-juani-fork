@@ -10,7 +10,7 @@
       enable = true;
       openFirewall = true;
       listenPort = ports.homepage;
-      allowedHosts = "192.168.1.22:${toString ports.homepage}";
+      allowedHosts = "${config.serverUrl}:${toString ports.homepage}";
       environmentFiles = ["/etc/homepage-secrets"];
 
       widgets = [
@@ -54,7 +54,7 @@
             {
               "Immich" = {
                 icon = "immich.png";
-                href = "http://192.168.1.22:${toString ports.immich}";
+                href = "${config.serverUrl}:${toString ports.immich}";
                 siteMonitor = "http://localhost:${toString ports.immich}";
                 widget = {
                   type = "immich";
@@ -67,7 +67,7 @@
             {
               "Nextcloud" = {
                 icon = "nextcloud.png";
-                href = "http://192.168.1.22:${toString ports.nextcloud}";
+                href = "${config.serverUrl}:${toString ports.nextcloud}";
                 siteMonitor = "http://localhost:${toString ports.nextcloud}/status.php";
                 widget = {
                   type = "nextcloud";
@@ -79,7 +79,7 @@
             {
               "Trilium" = {
                 icon = "trilium.png";
-                href = "http://192.168.1.22:${toString ports.trilium}";
+                href = "${config.serverUrl}:${toString ports.trilium}";
                 siteMonitor = "http://localhost:${toString ports.trilium}";
                 widget = {
                   type = "trilium";
@@ -91,7 +91,7 @@
             {
               "Karakeep" = {
                 icon = "karakeep.png";
-                href = "http://192.168.1.22:${toString ports.karakeep}";
+                href = "${config.serverUrl}:${toString ports.karakeep}";
                 siteMonitor = "http://localhost:${toString ports.karakeep}";
                 widget = {
                   type = "karakeep";
@@ -103,7 +103,7 @@
             {
               "Scrutiny" = {
                 icon = "scrutiny.png";
-                href = "http://192.168.1.22:${toString ports.scrutiny}";
+                href = "${config.serverUrl}:${toString ports.scrutiny}";
                 widget = {
                   type = "scrutiny";
                   url = "http://localhost:${toString ports.scrutiny}";
