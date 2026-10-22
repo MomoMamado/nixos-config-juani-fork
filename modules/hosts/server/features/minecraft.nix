@@ -8,7 +8,7 @@
     mcwebhook = pkgs.writeShellApplication {
       name = "mcwebhook";
       runtimeInputs = [pkgs.curl];
-      text = builtins.readFile ./mcwebhook.sh;
+      text = builtins.readFile ../scripts/mcwebhook.sh;
     };
 
     mcstopped = pkgs.writeShellApplication {
@@ -33,7 +33,7 @@
         pkgs.gnugrep
         pkgs.systemd
       ];
-      text = builtins.readFile ./mcbackup.sh;
+      text = builtins.readFile ../scripts/mcbackup.sh;
     };
   in {
     services = {
