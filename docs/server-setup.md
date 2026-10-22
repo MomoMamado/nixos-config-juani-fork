@@ -142,6 +142,7 @@ sudoedit /etc/homepage-secrets
 sudo chmod 600 /etc/homepage-secrets
 
 nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+sudo systemctl restart homepage-dashboard
 ```
 
 ### Nextcloud
@@ -152,7 +153,7 @@ For Nextcloud, the token isn't created in the app: a random one is generated and
 2. Tell Nextcloud to accept it with `sudo nextcloud-occ config:app:set serverinfo token --value <token>`. It's stored in Nextcloud's database, so it's included in the nightly backup.
 3. Edit the secrets file with `sudoedit /etc/homepage-secrets`.
 4. Add a new line with the same token in the following format: `HOMEPAGE_VAR_NEXTCLOUD_KEY=<token>`.
-5. Run `rebuild`. If the config didn't change, run `sudo systemctl restart homepage-dashboard` instead, since Homepage only reads the secrets file when it starts.
+5. Run `rebuild` and then `sudo systemctl restart homepage-dashboard`. Homepage only reads the secrets file when it starts, and a rebuild doesn't restart it: it picks up the new widget config live, but keeps the old secrets.
 6. Verify the token with the `curl` command below, it should return JSON with the server info. Also verify Homepage shows numbers on the Nextcloud entry instead of an error. If it fails, check the serverinfo app is enabled with `sudo nextcloud-occ app:list`.
 
 Commands:
@@ -167,8 +168,33 @@ sudoedit /etc/homepage-secrets
 # add HOMEPAGE_VAR_NEXTCLOUD_KEY=<token>
 
 nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+sudo systemctl restart homepage-dashboard
 
 # === verification ===
 curl -H "NC-Token: <token>" "http://localhost/ocs/v2.php/apps/serverinfo/api/v1/info?format=json"
 sudo nextcloud-occ app:list | grep serverinfo
+```
+
+### Immich
+
+For Immich, the API key is created from the account settings inside the app. The widget reads the server statistics, which only admins can see, so the key must be created from the admin account. Immich lets each key have only some permissions, so it's given only the one the widget needs: a leaked key can read the numbers but not the photos.
+
+1. Go to where Immich is hosted, log in with the admin account and create an API key from Account Settings → API Keys, with only the server statistics permission (`server.statistics`). If the widget later fails with only that one, also allow the server version/info permission.
+2. Edit the secrets file with `sudoedit /etc/homepage-secrets`.
+3. Add a new line with the API key obtained in step 1 in the following format: `HOMEPAGE_VAR_IMMICH_KEY=<api-key>`.
+4. Run `rebuild` and then `sudo systemctl restart homepage-dashboard`, since Homepage only reads the secrets file when it starts.
+5. Verify the key with the `curl` command below, it should return JSON with the photo and video counts. Also verify Homepage shows numbers on the Immich entry instead of an error. A `401` means the key is wrong or wasn't created from the admin account; a `403` means it's missing a permission.
+
+Commands:
+
+```bash
+# === secrets ===
+sudoedit /etc/homepage-secrets
+# add HOMEPAGE_VAR_IMMICH_KEY=<api-key>
+
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+sudo systemctl restart homepage-dashboard
+
+# === verification ===
+curl -H "x-api-key: <api-key>" "http://localhost:8001/api/server/statistics"
 ```
