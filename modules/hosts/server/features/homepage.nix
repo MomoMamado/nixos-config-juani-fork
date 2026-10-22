@@ -56,6 +56,12 @@
                 icon = "immich.png";
                 href = "http://192.168.1.22:${toString ports.immich}";
                 siteMonitor = "http://localhost:${toString ports.immich}";
+                widget = {
+                  type = "immich";
+                  url = "http://localhost:${toString ports.immich}";
+                  key = "{{HOMEPAGE_VAR_IMMICH_KEY}}";
+                  version = 2;
+                };
               };
             }
             {
