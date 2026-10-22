@@ -63,6 +63,11 @@
                 icon = "nextcloud.png";
                 href = "http://192.168.1.22:${toString ports.nextcloud}";
                 siteMonitor = "http://localhost:${toString ports.nextcloud}/status.php";
+                widget = {
+                  type = "nextcloud";
+                  url = "http://localhost:${toString ports.nextcloud}";
+                  key = "{{HOMEPAGE_VAR_NEXTCLOUD_KEY}}";
+                };
               };
             }
             {

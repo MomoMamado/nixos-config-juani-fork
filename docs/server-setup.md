@@ -143,3 +143,32 @@ sudo chmod 600 /etc/homepage-secrets
 
 nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
 ```
+
+### Nextcloud
+
+For Nextcloud, the token isn't created in the app: a random one is generated and Nextcloud is told to accept it. It's the token of the serverinfo app, which can only read the monitoring stats (no login, no files), so it's safer than using the admin password.
+
+1. Generate a random token with `head -c 32 /dev/urandom | base64 | tr -d '\n/+='; echo` and copy it.
+2. Tell Nextcloud to accept it with `sudo nextcloud-occ config:app:set serverinfo token --value <token>`. It's stored in Nextcloud's database, so it's included in the nightly backup.
+3. Edit the secrets file with `sudoedit /etc/homepage-secrets`.
+4. Add a new line with the same token in the following format: `HOMEPAGE_VAR_NEXTCLOUD_KEY=<token>`.
+5. Run `rebuild`. If the config didn't change, run `sudo systemctl restart homepage-dashboard` instead, since Homepage only reads the secrets file when it starts.
+6. Verify the token with the `curl` command below, it should return JSON with the server info. Also verify Homepage shows numbers on the Nextcloud entry instead of an error. If it fails, check the serverinfo app is enabled with `sudo nextcloud-occ app:list`.
+
+Commands:
+
+```bash
+# === token ===
+head -c 32 /dev/urandom | base64 | tr -d '\n/+='; echo
+sudo nextcloud-occ config:app:set serverinfo token --value <token>
+
+# === secrets ===
+sudoedit /etc/homepage-secrets
+# add HOMEPAGE_VAR_NEXTCLOUD_KEY=<token>
+
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+
+# === verification ===
+curl -H "NC-Token: <token>" "http://localhost/ocs/v2.php/apps/serverinfo/api/v1/info?format=json"
+sudo nextcloud-occ app:list | grep serverinfo
+```
