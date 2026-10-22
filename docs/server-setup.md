@@ -198,3 +198,26 @@ sudo systemctl restart homepage-dashboard
 # === verification ===
 curl -H "x-api-key: <api-key>" "http://localhost:8001/api/server/statistics"
 ```
+### Trilium
+
+For Trilium, the API key is an ETAPI token created from the options inside the app. ETAPI tokens can't be limited to some permissions: the token has full access to the notes (read, edit and delete), so it should be treated like a password.
+
+1. Go to where Trilium is hosted, log in and create a token from Options → ETAPI → Create new ETAPI token. Give it a name like `homepage`.
+2. Edit the secrets file with `sudoedit /etc/homepage-secrets`.
+3. Add a new line with the token obtained in step 1 in the following format: `HOMEPAGE_VAR_TRILIUM_KEY=<token>`.
+4. Run `rebuild` and then `sudo systemctl restart homepage-dashboard`, since Homepage only reads the secrets file when it starts.
+5. Verify the token with the `curl` command below, it should return JSON with the version and note counts. Also verify Homepage shows the version, number of notes and database size on the Trilium entry instead of an error. A `401` means the token is wrong.
+
+Commands:
+
+```bash
+# === secrets ===
+sudoedit /etc/homepage-secrets
+# add HOMEPAGE_VAR_TRILIUM_KEY=<token>
+
+nrs # sudo nixos-rebuild switch -L --flake ~/nixos-config
+sudo systemctl restart homepage-dashboard
+
+# === verification ===
+curl -H "Authorization: <token>" "http://localhost:8002/etapi/metrics?format=json"
+```
