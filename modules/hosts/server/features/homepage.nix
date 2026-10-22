@@ -10,7 +10,7 @@
       enable = true;
       openFirewall = true;
       listenPort = ports.homepage;
-      allowedHosts = "${config.serverUrl}:${toString ports.homepage}";
+      allowedHosts = "${config.serverHost}:${toString ports.homepage}";
       environmentFiles = ["/etc/homepage-secrets"];
 
       widgets = [

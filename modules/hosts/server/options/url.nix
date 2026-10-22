@@ -1,9 +1,19 @@
 {
-  flake.modules.nixos.serverConfiguration = {lib, ...}: {
+  flake.modules.nixos.serverConfiguration = {
+    config,
+    lib,
+    ...
+  }: {
+    options.serverHost = lib.mkOption {
+      type = lib.types.str;
+      description = "Hostname or IP of the server, without scheme or port.";
+      default = "192.168.1.22";
+    };
+
     options.serverUrl = lib.mkOption {
       type = lib.types.str;
       description = "URL of the server.";
-      default = "http://192.168.1.22";
+      default = "http://${config.serverHost}";
     };
   };
 }

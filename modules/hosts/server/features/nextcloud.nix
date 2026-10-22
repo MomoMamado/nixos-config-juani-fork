@@ -7,7 +7,7 @@
     services.nextcloud = {
       enable = true;
       package = pkgs.nextcloud35;
-      hostName = "192.168.1.22";
+      hostName = config.serverHost;
       datadir = "/data/nextcloud";
       database.createLocally = true;
       configureRedis = true;
