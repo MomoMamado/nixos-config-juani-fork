@@ -88,7 +88,12 @@
       '';
       serviceConfig = {
         # "+" runs them as root, since the webhook url file is only readable by root
-        ExecStartPost = ["-+${mcmanage}/bin/mcmanage notify up"];
+        ExecStartPost = [
+          "-+${mcmanage}/bin/mcmanage notify up"
+          "-${pkgs.writeShellScript "mcgamerules" ''
+            echo "gamerule players_sleeping_percentage 20" > ${config.systemd.sockets.minecraft-server.socketConfig.ListenFIFO}
+          ''}"
+        ];
         ExecStopPost = ["-+${mcmanage}/bin/mcmanage stopped"];
       };
     };
