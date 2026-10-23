@@ -82,7 +82,9 @@
         if [ -f config/paper-global.yml ]; then
           ${lib.getExe pkgs.yq-go} -i '
             .["unsupported-settings"]["allow-permanent-block-break-exploits"] = true |
-            .["unsupported-settings"]["allow-unsafe-end-portal-teleportation"] = true
+            .["unsupported-settings"]["allow-unsafe-end-portal-teleportation"] = true |
+            .["unsupported-settings"]["allow-piston-duplication"] = true |
+            .["unsupported-settings"]["allow-headless-pistons"] = true
           ' config/paper-global.yml
         fi
       '';
